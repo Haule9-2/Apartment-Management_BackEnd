@@ -30,5 +30,11 @@ public class ServiceServiceImpl implements  ServiceService {
     public Services getServiceById(int id) {
         return this.repo.getServiceById(id);
     }
+
+    @Override
+    public void deleteService(int id) {
+        this.repo.deleteService(id);
+    }
+
 }
 

@@ -3,6 +3,7 @@ package com.dmp.repositories.impl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -10,6 +11,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import com.dmp.pojo.Services;
+import org.hibernate.HibernateException;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 
@@ -52,7 +54,6 @@ public class ServiceRepositoryImpl implements ServiceRepository {
             }
         }
         predicates.add(cb.equal(r.get("isActive"), (short) 1));
-        // Kết hợp tất cả các điều kiện thành một Predicate
         cq.where(predicates.toArray(Predicate[]::new));
         cq.orderBy(cb.desc(r.get("id")));
         Query q = s.createQuery(cq);
@@ -72,17 +73,61 @@ public class ServiceRepositoryImpl implements ServiceRepository {
 
     @Override
     public void addOrUpdate(Services service) {
-        Session s = this.factoryBean.getObject().getCurrentSession();
-        if (service.getId() != null) {
-            s.merge(service);
+        Session session = this.factoryBean.getObject().getCurrentSession();
+        try {
+            // Đặt is_active thành 1 trước khi merge hoặc persist
+            service.setIsActive((short) 1);
+            if (service.getId() != null) {
+                session.merge(service);
+            } else {
+                session.persist(service);
+            }
+        } catch (HibernateException e) {
+            e.printStackTrace();
         }
-        else
-            s.persist(service);
     }
 
     @Override
     public Services getServiceById(int id) {
-        Session s = this.factoryBean.getObject().getCurrentSession();
-        return s.get(Services.class, id);
+        try {
+            Session s = this.factoryBean.getObject().getCurrentSession();
+            CriteriaBuilder builder = s.getCriteriaBuilder();
+            CriteriaQuery<Services> criteriaQuery = builder.createQuery(Services.class);
+            Root<Services> root = criteriaQuery.from(Services.class);
+
+            Predicate isActivePredicate = builder.equal(root.get("isActive"), (short) 1);
+            Predicate idPredicate = builder.equal(root.get("id"), id);
+            Predicate finalPredicate = builder.and(isActivePredicate, idPredicate);
+
+            criteriaQuery.where(finalPredicate);
+
+            return s.createQuery(criteriaQuery).getSingleResult();
+        } catch (NoResultException ex) {
+            ex.printStackTrace();
+            return null;
+        } catch (HibernateException ex) {
+            ex.printStackTrace();
+           return null;
+        }
     }
+
+    @Override
+    public void deleteService(int id) {
+        try {
+            Session s = this.factoryBean.getObject().getCurrentSession();
+            Services service = this.getServiceById(id);
+            if (service != null) {
+                if (service.getIsActive() == 1) {
+                    service.setIsActive((short) 0); // Đặt trạng thái isActive thành không hoạt động
+                    s.update(service);
+                } else {
+                    s.delete(service);
+                }
+            }
+        } catch (HibernateException ex) {
+            ex.printStackTrace(); // In ra thông tin lỗi
+        }
+    }
+
+
 }

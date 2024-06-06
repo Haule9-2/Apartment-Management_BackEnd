@@ -10,4 +10,5 @@ public interface ServiceRepository {
 
     void addOrUpdate(Services service);
     Services getServiceById(int id);
+    void deleteService(int id);
 }

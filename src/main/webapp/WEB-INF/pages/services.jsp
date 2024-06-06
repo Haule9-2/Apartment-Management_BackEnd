@@ -29,17 +29,11 @@
             <label for="price">Giá:</label>
             <form:input class="form-control" id="price" path="price" />
         </div>
-        <div class="form-group">
-            <label for="isActive">Trạng thái:</label>
-            <form:select class="form-control" id="isActive" path="isActive">
-                <form:option value="1">Hoạt động</form:option>
-                <form:option value="0">Không hoạt động</form:option>
-            </form:select>
-        </div>
+        <!-- Bỏ phần select box của trạng thái -->
         <div class="form-floating">
             <button class="btn btn-info mt-1" type="submit">
                 <c:choose>
-                    <c:when test="${services.id > 0}"> Cập nhât sản phẩm</c:when>
+                    <c:when test="${services.id > 0}"> Cập nhật sản phẩm</c:when>
                     <c:otherwise> Thêm sản phẩm</c:otherwise>
                 </c:choose>
             </button>

@@ -9,4 +9,5 @@ public interface ServiceService {
     List<Services> getServices(Map<String, String> params);
     void addOrUpdate(Services service);
     Services getServiceById(int id);
+    void deleteService(int id);
 }
