@@ -76,7 +76,7 @@ public class ServiceRepositoryImpl implements ServiceRepository {
         Session session = this.factoryBean.getObject().getCurrentSession();
         try {
             // Đặt is_active thành 1 trước khi merge hoặc persist
-            service.setIsActive((short) 1);
+            service.setIsActive((byte) 1);
             if (service.getId() != null) {
                 session.merge(service);
             } else {

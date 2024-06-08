@@ -1,111 +1,54 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.dmp.pojo;
 
-import java.io.Serializable;
-import java.util.Date;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
+import java.time.LocalDate;
 
-/**
- *
- * @author Phuc
- */
 @Entity
 @Table(name = "user")
-@XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
-    @NamedQuery(name = "User.findById", query = "SELECT u FROM User u WHERE u.id = :id"),
-    @NamedQuery(name = "User.findByUsername", query = "SELECT u FROM User u WHERE u.username = :username"),
-    @NamedQuery(name = "User.findByPassword", query = "SELECT u FROM User u WHERE u.password = :password"),
-    @NamedQuery(name = "User.findByRole", query = "SELECT u FROM User u WHERE u.role = :role"),
-    @NamedQuery(name = "User.findByIsActive", query = "SELECT u FROM User u WHERE u.isActive = :isActive"),
-    @NamedQuery(name = "User.findByFullName", query = "SELECT u FROM User u WHERE u.fullName = :fullName"),
-    @NamedQuery(name = "User.findByGender", query = "SELECT u FROM User u WHERE u.gender = :gender"),
-    @NamedQuery(name = "User.findByPhone", query = "SELECT u FROM User u WHERE u.phone = :phone"),
-    @NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User u WHERE u.email = :email"),
-    @NamedQuery(name = "User.findByBirthday", query = "SELECT u FROM User u WHERE u.birthday = :birthday")})
-public class User implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     private Integer id;
-    @Basic(optional = false)
+
+    @Size(max = 45)
     @NotNull
-    @Size(min = 1, max = 45)
-    @Column(name = "username")
+    @Column(name = "username", nullable = false, length = 45)
     private String username;
-    @Basic(optional = false)
+
+    @Size(max = 45)
     @NotNull
-    @Size(min = 1, max = 45)
-    @Column(name = "password")
+    @Column(name = "password", nullable = false, length = 45)
     private String password;
-    @Basic(optional = false)
+
     @NotNull
-    @Size(min = 1, max = 8)
-    @Column(name = "role")
+    @Lob
+    @Column(name = "role", nullable = false)
     private String role;
+
     @Column(name = "is_active")
     private Boolean isActive;
-    @Basic(optional = false)
+
+    @Size(max = 45)
     @NotNull
-    @Size(min = 1, max = 45)
-    @Column(name = "full_name")
+    @Column(name = "full_name", nullable = false, length = 45)
     private String fullName;
-    @Basic(optional = false)
+
     @NotNull
-    @Size(min = 1, max = 6)
-    @Column(name = "gender")
+    @Lob
+    @Column(name = "gender", nullable = false)
     private String gender;
+
     @Column(name = "phone")
     private Integer phone;
-    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
+
     @Size(max = 45)
-    @Column(name = "email")
+    @Column(name = "email", length = 45)
     private String email;
+
     @Column(name = "birthday")
-    @Temporal(TemporalType.DATE)
-    private Date birthday;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
-    private Admin admin;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
-    private Resident resident;
-
-    public User() {
-    }
-
-    public User(Integer id) {
-        this.id = id;
-    }
-
-    public User(Integer id, String username, String password, String role, String fullName, String gender) {
-        this.id = id;
-        this.username = username;
-        this.password = password;
-        this.role = role;
-        this.fullName = fullName;
-        this.gender = gender;
-    }
+    private LocalDate birthday;
 
     public Integer getId() {
         return id;
@@ -179,53 +122,12 @@ public class User implements Serializable {
         this.email = email;
     }
 
-    public Date getBirthday() {
+    public LocalDate getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(Date birthday) {
+    public void setBirthday(LocalDate birthday) {
         this.birthday = birthday;
     }
 
-    public Admin getAdmin() {
-        return admin;
-    }
-
-    public void setAdmin(Admin admin) {
-        this.admin = admin;
-    }
-
-    public Resident getResident() {
-        return resident;
-    }
-
-    public void setResident(Resident resident) {
-        this.resident = resident;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof User)) {
-            return false;
-        }
-        User other = (User) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "com.dmp.pojo.User[ id=" + id + " ]";
-    }
-    
 }
