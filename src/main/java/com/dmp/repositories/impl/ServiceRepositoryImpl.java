@@ -117,12 +117,7 @@ public class ServiceRepositoryImpl implements ServiceRepository {
             Session s = this.factoryBean.getObject().getCurrentSession();
             Services service = this.getServiceById(id);
             if (service != null) {
-                if (service.getIsActive() == 1) {
-                    service.setIsActive((short) 0); // Đặt trạng thái isActive thành không hoạt động
-                    s.update(service);
-                } else {
                     s.delete(service);
-                }
             }
         } catch (HibernateException ex) {
             ex.printStackTrace(); // In ra thông tin lỗi

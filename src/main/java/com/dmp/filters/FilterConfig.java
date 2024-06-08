@@ -1,9 +1,10 @@
-package com.dmp.configs;
+package com.dmp.filters;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import java.io.IOException;
 
+// fix lỗi UTF-8 jsp
 @WebFilter(urlPatterns = "/*")
 public class FilterConfig implements Filter {
     private static final String UTF8 = "UTF-8";

@@ -45,6 +45,7 @@
     </tbody>
   </table>
   <a class="btn btn-success" href="<c:url value='/services' />" >Thêm dịch vụ</a>
+  <a class="btn btn-info" href="<c:url value='/floor' />" >Xem tầng</a>
 </div>
 
 <script src="<c:url value="/js/service.js" />"></script>

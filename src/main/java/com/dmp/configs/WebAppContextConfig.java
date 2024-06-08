@@ -23,7 +23,8 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 /**
  * @author admin
  */
@@ -36,6 +37,10 @@ import org.springframework.web.servlet.view.JstlView;
         "com.dmp.services"
 })
 public class WebAppContextConfig implements WebMvcConfigurer {
+
+    @Autowired
+    private Environment environment;
+
 
     @Override
     public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
@@ -59,11 +64,13 @@ public class WebAppContextConfig implements WebMvcConfigurer {
 
     @Bean
     public Cloudinary cloudinary() {
-        return new Cloudinary(ObjectUtils.asMap(
-                "cloud_name", "dpo7xz0kp",
-                "api_key", "443839822669517",
-                "api_secret", "FYzAdm8HVbaOMxE-4scmRW3u22U",
+        Cloudinary cloudinary
+                = new Cloudinary(ObjectUtils.asMap(
+                "cloud_name", this.environment.getProperty("cloudinary.cloud_name"),
+                "api_key", this.environment.getProperty("cloudinary.api_id"),
+                "api_secret", this.environment.getProperty("cloudinary.api_secret"),
                 "secure", true));
+        return cloudinary;
     }
     @Bean
     public MessageSource messageSource() {

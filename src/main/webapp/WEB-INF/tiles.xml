@@ -22,4 +22,8 @@
         <put-attribute name="title" value="Dịch Vụ" />
         <put-attribute name="content" value="/WEB-INF/pages/services.jsp" />
     </definition>
+    <definition name="floor" extends="baseLayout">
+        <put-attribute name="title" value="Tầng" />
+        <put-attribute name="content" value="/WEB-INF/pages/floor.jsp" />
+    </definition>
 </tiles-definitions>
