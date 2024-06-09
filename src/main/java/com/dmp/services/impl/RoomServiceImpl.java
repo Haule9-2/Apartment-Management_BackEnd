@@ -19,4 +19,19 @@ public class RoomServiceImpl implements RoomService {
     public List<Room> getRooms(Map<String, String> params) {
         return this.repo.getRooms(params);
     }
+
+    @Override
+    public void addOrUpdate(Room room) {
+        this.repo.addOrUpdate(room);
+    }
+
+    @Override
+    public Room getRoomById(int id) {
+        return this.repo.getRoomById(id);
+    }
+
+    @Override
+    public void deleteService(int id) {
+        this.repo.deleteRoom(id);
+    }
 }

@@ -26,12 +26,6 @@ public class HomeController {
     private Cloudinary cloudinary;
 
 
-//    @RequestMapping("/")
-//    public String Index(Model model, @RequestParam Map<String, String> params) {
-//        System.out.println("Xin Chào");
-//        model.addAttribute("services", this.serviceService.getServices(params));
-//        return "index";
-//    }
     @RequestMapping("/")
     public String Index(Model model, @RequestParam Map<String, String> params) {
         model.addAttribute("services", this.serviceService.getServices(params));

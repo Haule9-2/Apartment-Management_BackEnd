@@ -8,4 +8,7 @@ import java.util.Map;
 
 public interface RoomService {
     List<Room> getRooms(Map<String, String> params);
+    void addOrUpdate(Room room);
+    Room getRoomById(int id);
+    void deleteService(int id);
 }

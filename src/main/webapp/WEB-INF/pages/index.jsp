@@ -46,6 +46,7 @@
   </table>
   <a class="btn btn-success" href="<c:url value='/services' />" >Thêm dịch vụ</a>
   <a class="btn btn-info" href="<c:url value='/floor' />" >Xem tầng</a>
+  <a class="btn btn-primary" href="<c:url value='/room' />">Xem phòng</a>
 </div>
 
 <script src="<c:url value="/js/service.js" />"></script>
