@@ -4,6 +4,8 @@
  */
 package com.dmp.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.io.Serializable;
 import java.util.Set;
 import javax.persistence.Basic;
@@ -46,12 +48,16 @@ public class Resident implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "avatar")
     private String avatar;
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "residentId")
     private Set<RentalContract> rentalContractSet;
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "residentId")
     private Set<Complaint> complaintSet;
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "residentId")
     private Set<FamilyMember> familyMemberSet;
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "residentId")
     private Set<Roommate> roommateSet;
     @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
