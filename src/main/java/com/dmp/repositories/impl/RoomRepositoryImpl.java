@@ -1,13 +1,17 @@
 package com.dmp.repositories.impl;
 
 import com.dmp.pojo.Room;
+import com.dmp.pojo.Services;
 import com.dmp.repositories.RoomRepository;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import javax.persistence.criteria.Predicate;
@@ -23,6 +27,8 @@ import java.util.Map;
 @Transactional
 @PropertySource("classpath:configs.properties")
 public class RoomRepositoryImpl implements RoomRepository {
+    @Autowired
+    private LocalSessionFactoryBean factoryBean;
     @Autowired
     private LocalSessionFactoryBean factory;
 
@@ -48,5 +54,56 @@ public class RoomRepositoryImpl implements RoomRepository {
         List<Room> rooms = query.getResultList();
 
         return rooms;
+    }
+
+    @Override
+    public void addOrUpdate(Room room) {
+        Session session = this.factoryBean.getObject().getCurrentSession();
+        try {
+            if (room.getId() != null) {
+                session.merge(room);
+            } else {
+                session.persist(room);
+            }
+        } catch (HibernateException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @Override
+    public Room getRoomById(int id) {
+        try {
+            Session s = this.factoryBean.getObject().getCurrentSession();
+            CriteriaBuilder builder = s.getCriteriaBuilder();
+            CriteriaQuery<Room> criteriaQuery = builder.createQuery(Room.class);
+            Root<Room> root = criteriaQuery.from(Room.class);
+
+            Predicate idPredicate = builder.equal(root.get("id"), id);
+
+            criteriaQuery.where(idPredicate);
+
+            return s.createQuery(criteriaQuery).getSingleResult();
+        } catch (NoResultException ex) {
+            ex.printStackTrace();
+            return null;
+        } catch (HibernateException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public void deleteRoom(int id) {
+        try {
+            Session s = this.factoryBean.getObject().getCurrentSession();
+            Room room = this.getRoomById(id);
+            if (room != null) {
+                s.delete(room);
+            }
+        } catch (HibernateException ex) {
+            ex.printStackTrace(); // In ra thông tin lỗi
+        }
+
     }
 }
