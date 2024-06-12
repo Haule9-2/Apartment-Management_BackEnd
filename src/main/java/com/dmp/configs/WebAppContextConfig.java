@@ -6,6 +6,7 @@ package com.dmp.configs;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import com.dmp.fomatters.RoomFormatter;
 import com.dmp.fomatters.ServicesFormatter;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -48,7 +49,9 @@ public class WebAppContextConfig implements WebMvcConfigurer {
     }
     @Override
     public void addFormatters(FormatterRegistry registry) {
+
         registry.addFormatter(new ServicesFormatter());
+        registry.addFormatter(new RoomFormatter());
     }
 
 

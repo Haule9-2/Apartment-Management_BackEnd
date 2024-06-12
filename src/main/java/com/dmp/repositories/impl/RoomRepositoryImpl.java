@@ -106,4 +106,27 @@ public class RoomRepositoryImpl implements RoomRepository {
         }
 
     }
+
+    @Override
+    public void updateStatusConTrong_DaThue(Room room) {
+        Session s = this.factory.getObject().getCurrentSession();
+        Room tmp = this.getRoomById(room.getId());
+        tmp.setStatus("đã thuê");
+        s.update(tmp);
+    }
+    public void updateStatus(Room room, String newStatus) {
+        try {
+            Session s = this.factory.getObject().getCurrentSession();
+            Room roomToUpdate = s.get(Room.class, room.getId());
+
+            if ("còn trống".equals(newStatus) || "đã thuê".equals(newStatus) || "bảo trì".equals(newStatus)) {
+                roomToUpdate.setStatus(newStatus);
+                s.update(roomToUpdate);
+            } else {
+                throw new IllegalArgumentException("Trạng thái mới không hợp lệ");
+            }
+        } catch (Exception e) {
+            System.err.println("Lỗi khi cập nhật trạng thái: " + e.getMessage());
+        }
+    }
 }

@@ -30,4 +30,8 @@
         <put-attribute name="title" value="Phòng" />
         <put-attribute name="content" value="/WEB-INF/pages/room.jsp" />
     </definition>
+    <definition name="addroom" extends="baseLayout">
+        <put-attribute name="title" value="Thêm Phòng" />
+        <put-attribute name="content" value="/WEB-INF/pages/addroom.jsp" />
+    </definition>
 </tiles-definitions>

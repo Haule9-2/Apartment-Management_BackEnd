@@ -11,7 +11,7 @@
 </head>
 <body>
 <div class="container mt-5">
-    <h1 class="text-center text-info">QUẢN LÝ DỊCH PHÒNG</h1>
+    <h1 class="text-center text-info">QUẢN LÝ PHÒNG</h1>
     <c:url value="/rooms" var="action" />
 
     <form:form method="post" action="${action}" modelAttribute="rooms">
@@ -40,7 +40,7 @@
         <div class="form-group">
             <label for="floor">Tầng:</label>
             <form:select class="form-control" path="floor.id">
-                <form:options items="${floorList}" itemValue="id" itemLabel="name" />
+                <form:options items="${room.floor.name}" itemValue="id" itemLabel="name" />
             </form:select>
         </div>
 

@@ -17,8 +17,8 @@ public class RoomController {
     @Autowired
     private RoomService roomService;
 
-    @RequestMapping("/rooms")
-    public String RoomDetail(Model model, @RequestParam Map<String, String> params) {
+    @RequestMapping("/room")
+    public String FloorDetail(Model model, @RequestParam Map<String, String> params) {
         model.addAttribute("rooms", this.roomService.getRooms(params));
         return "room";
     }
@@ -28,7 +28,7 @@ public class RoomController {
         return "room";
     }
     @PostMapping("/rooms")
-    public String addandupdateRoom(@ModelAttribute(value = "rooms") @Valid Room s, BindingResult rs) {
+    public String createService(@ModelAttribute(value = "rooms") @Valid Room s, BindingResult rs) {
         if (!rs.hasErrors()) {
             try {
                 this.roomService.addOrUpdate(s);

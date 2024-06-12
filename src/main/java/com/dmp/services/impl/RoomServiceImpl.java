@@ -34,4 +34,14 @@ public class RoomServiceImpl implements RoomService {
     public void deleteService(int id) {
         this.repo.deleteRoom(id);
     }
+
+    @Override
+    public void updateStatusConTrong_DaThue(Room room) {
+        this.repo.updateStatusConTrong_DaThue(room);
+    }
+
+    @Override
+    public void updateStatus(Room room, String newStatus) {
+        this.repo.updateStatus(room, newStatus);
+    }
 }
