@@ -3,12 +3,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thêm phòng</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-</head>
 <body>
 <div class="container mt-5">
     <h1 class="text-center text-info">QUẢN LÝ PHÒNG</h1>
@@ -18,44 +12,34 @@
         <form:errors path="*" element="div" cssClass="alert alert-danger" />
 
         <div class="form-group">
-            <label for="number">Số phòng:</label>
-            <form:input class="form-control" id="number" path="number" />
+            <label for="number">Số Phòng:</label>
+            <input type="text" class="form-control" id="number" placeholder="Nhập số phòng" name="number" required>
+            <div class="invalid-feedback">Vui lòng nhập số phòng.</div>
         </div>
         <div class="form-group">
             <label for="price">Giá:</label>
-            <form:input class="form-control" id="price" path="price" />
+            <input type="number" class="form-control" id="price" placeholder="Nhập giá" name="price" required>
+            <div class="invalid-feedback">Vui lòng nhập giá.</div>
         </div>
         <div class="form-group">
             <label for="maximum">Số người tối đa:</label>
-            <form:input class="form-control" id="maximum" path="maximum" />
+            <input type="number" class="form-control" id="maximum" placeholder="Nhập số người tối đa" name="maximum">
         </div>
         <div class="form-group">
             <label for="description">Mô tả:</label>
-            <form:textarea class="form-control" id="description" path="description" />
-        </div>
-        <div class="form-group">
-            <label for="status">Trạng thái:</label>
-            <form:input class="form-control" id="status" path="status" />
+            <textarea class="form-control" id="description" placeholder="Nhập mô tả" name="description"></textarea>
         </div>
         <div class="form-group">
             <label for="floor">Tầng:</label>
-            <form:select class="form-control" path="floor.id">
-                <form:options items="${room.floor.name}" itemValue="id" itemLabel="name" />
-            </form:select>
+            <select class="form-control" id="floor" name="floor.id" required>
+                <c:forEach items="${floors}" var="floor">
+                    <option value="${floor.id}">${floor.name}</option>
+                </c:forEach>
+            </select>
+            <div class="invalid-feedback">Vui lòng chọn tầng.</div>
         </div>
-
-        <div class="form-floating">
-            <button class="btn btn-info mt-1" type="submit">
-                <c:choose>
-                    <c:when test="${rooms.id > 0}">Cập nhật phòng</c:when>
-                    <c:otherwise>Thêm phòng</c:otherwise>
-                </c:choose>
-            </button>
-            <form:hidden path="id" />
-        </div>
+        <button type="submit" class="btn btn-primary">Thêm phòng</button>
     </form:form>
 </div>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
