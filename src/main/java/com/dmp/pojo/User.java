@@ -5,6 +5,7 @@
 package com.dmp.pojo;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -78,7 +79,7 @@ public class User implements Serializable {
     @Column(name = "gender")
     private String gender;
     @Column(name = "phone")
-    private Integer phone;
+    private BigInteger phone;
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     @Size(max = 45)
     @Column(name = "email")
@@ -163,11 +164,11 @@ public class User implements Serializable {
         this.gender = gender;
     }
 
-    public Integer getPhone() {
+    public BigInteger getPhone() {
         return phone;
     }
 
-    public void setPhone(Integer phone) {
+    public void setPhone(BigInteger phone) {
         this.phone = phone;
     }
 

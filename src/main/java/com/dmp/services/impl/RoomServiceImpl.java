@@ -2,7 +2,6 @@ package com.dmp.services.impl;
 
 import com.dmp.pojo.Room;
 import com.dmp.repositories.RoomRepository;
-import com.dmp.repositories.ServiceRepository;
 import com.dmp.services.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -46,8 +46,8 @@ public class Services implements Serializable {
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
-    @Size(min = 1, max = 45, message = "{service.name.minMaxErr}")
-    @NotNull(message = "{service.name.nullErr}")
+    @NotNull
+    @Size(min = 1, max = 45)
     @Column(name = "name")
     private String name;
     @Size(max = 45)

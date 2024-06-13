@@ -4,8 +4,6 @@
  */
 package com.dmp.pojo;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import java.io.Serializable;
 import java.util.Set;
 import javax.persistence.Basic;
@@ -48,7 +46,6 @@ public class Floor implements Serializable {
     @Size(min = 1, max = 45)
     @Column(name = "name")
     private String name;
-    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "floor")
     private Set<Room> roomSet;
 
