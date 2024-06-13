@@ -31,7 +31,7 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public void deleteService(int id) {
+    public void deleteRoom(int id) {
         this.repo.deleteRoom(id);
     }
 
