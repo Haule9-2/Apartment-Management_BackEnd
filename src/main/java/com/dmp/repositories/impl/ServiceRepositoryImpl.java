@@ -105,9 +105,6 @@ public class ServiceRepositoryImpl implements ServiceRepository {
         } catch (NoResultException ex) {
             ex.printStackTrace();
             return null;
-        } catch (HibernateException ex) {
-            ex.printStackTrace();
-           return null;
         }
     }
 
@@ -120,7 +117,7 @@ public class ServiceRepositoryImpl implements ServiceRepository {
                     s.delete(service);
             }
         } catch (HibernateException ex) {
-            ex.printStackTrace(); // In ra thông tin lỗi
+            ex.printStackTrace();
         }
     }
 

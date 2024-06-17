@@ -45,46 +45,15 @@ public class RoomateRepositoryImpl implements RoomateRepository {
     }
 
     @Override
-    public List<Roommate> getRoommate(Map<String, String> params) {
-        Session s = this.factoryBean.getObject().getCurrentSession();
-        CriteriaBuilder cb = s.getCriteriaBuilder();
-        CriteriaQuery<Roommate> cq = cb.createQuery(Roommate.class);
-        Root<Roommate> r = cq.from(Roommate.class);
-        cq.select(r);
-        List<Predicate> predicates = new ArrayList<>();
-
-        if (params != null) {
-            String kw = params.get("kw");
-            if (kw != null && !kw.isEmpty()) {
-                predicates.add(cb.like(r.get("someAttribute"), String.format("%%%s%%", kw)));
-            }
-            String contractId = params.get("contractId");
-            if (contractId != null && !contractId.isEmpty()) {
-                predicates.add(cb.equal(r.get("contractId").get("id"), Integer.parseInt(contractId)));
-            }
-            String residentId = params.get("residentId");
-            if (residentId != null && !residentId.isEmpty()) {
-                predicates.add(cb.equal(r.get("residentId").get("id"), Integer.parseInt(residentId)));
-            }
-        }
-
-        cq.where(predicates.toArray(Predicate[]::new));
-        cq.orderBy(cb.desc(r.get("id")));
-        Query q = s.createQuery(cq);
-
-        if (params != null) {
-            String page = params.get("page");
-            if (page != null && !page.isEmpty()) {
-                int p = Integer.parseInt(page);
-                int pageSize = Integer.parseInt(this.env.getProperty("Roommate.PAGE_SIZE"));
-
-                q.setMaxResults(pageSize);
-                q.setFirstResult((p - 1) * pageSize);
-            }
-        }
-
-        return q.getResultList();
+    public List<Roommate> getRoommateByContract(RentalContract contract) {
+            Session s = this.factoryBean.getObject().getCurrentSession();
+            Query query = s.createQuery(
+                    "SELECT r FROM Roommate r WHERE r.contractId.id = :id"
+            );
+            query.setParameter("id", contract.getId());
+            return query.getResultList();
     }
+
 
     @Override
     public Roommate getRoommateById(int id) {
@@ -118,22 +87,12 @@ public class RoomateRepositoryImpl implements RoomateRepository {
 
     @Override
     public boolean checkExistence(RentalContract contract, Resident resident) {
-        try {
-            Session s = this.factoryBean.getObject().getCurrentSession();
-            CriteriaBuilder builder = s.getCriteriaBuilder();
-            CriteriaQuery<Long> criteriaQuery = builder.createQuery(Long.class);
-            Root<Roommate> root = criteriaQuery.from(Roommate.class);
-
-            Predicate contractPredicate = builder.equal(root.get("contractId"), contract);
-            Predicate residentPredicate = builder.equal(root.get("residentId"), resident);
-
-            criteriaQuery.select(builder.count(root)).where(builder.and(contractPredicate, residentPredicate));
-
-            Long count = s.createQuery(criteriaQuery).getSingleResult();
-            return count > 0;
-        } catch (HibernateException ex) {
-            ex.printStackTrace();
-            return false;
-        }
+        Session session = this.factoryBean.getObject().getCurrentSession();
+            Query query = session.createQuery(
+                    "SELECT m FROM Roommate m WHERE m.contractId.id = :id1 AND m.residentId.id = :id2"
+            );
+            query.setParameter("id1", contract.getId());
+            query.setParameter("id2", resident.getId());
+            return query.getResultList().isEmpty();
     }
 }

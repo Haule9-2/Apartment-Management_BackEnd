@@ -8,8 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface RoommateService {
-    void addRoommate(Roommate roommate);
-    List<Roommate> getRoommate(Map<String, String> params);
+    List<Roommate> getRoommateByContract(RentalContract contract);
     Roommate getRoommateById(int id);
     void deleteRoommate(int id);
     boolean checkExistence(RentalContract contract, Resident resident);

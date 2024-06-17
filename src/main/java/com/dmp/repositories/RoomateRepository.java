@@ -10,7 +10,7 @@ import java.util.Map;
 
 public interface RoomateRepository {
     void addRoommate(Roommate roommate);
-    List<Roommate> getRoommate(Map<String, String> params);
+    List<Roommate> getRoommateByContract(RentalContract contract);
     Roommate getRoommateById(int id);
     void deleteRoommate(int id);
     boolean checkExistence(RentalContract contract, Resident resident);

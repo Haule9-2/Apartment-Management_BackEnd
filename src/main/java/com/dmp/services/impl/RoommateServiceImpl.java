@@ -16,14 +16,10 @@ public class RoommateServiceImpl implements RoommateService {
     @Autowired
     private RoomateRepository repo;
 
-    @Override
-    public void addRoommate(Roommate roommate) {
-        this.repo.addRoommate(roommate);
-    }
 
     @Override
-    public List<Roommate> getRoommate(Map<String, String> params) {
-        return this.repo.getRoommate(params);
+    public List<Roommate> getRoommateByContract(RentalContract contract) {
+        return this.repo.getRoommateByContract(contract);
     }
 
     @Override

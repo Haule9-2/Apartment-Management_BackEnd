@@ -23,7 +23,7 @@ public class RoomController {
     private ServiceService serviceService;
 
     @Autowired
-    private FloorService floorService; // Inject FloorService
+    private FloorService floorService;
 
     @RequestMapping("/room")
     public String roomDetail(Model model, @RequestParam Map<String, String> params) {
@@ -39,7 +39,7 @@ public class RoomController {
     }
 
     @PostMapping("/rooms")
-    public String createRoom(@ModelAttribute(value = "room") @Valid Room room, BindingResult rs) {
+    public String createRoom(@ModelAttribute(value = "room")  Room room, BindingResult rs) {
         if (!rs.hasErrors()) {
             try {
                 roomService.addOrUpdate(room);

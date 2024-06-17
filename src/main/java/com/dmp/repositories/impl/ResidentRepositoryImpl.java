@@ -2,20 +2,19 @@ package com.dmp.repositories.impl;
 
 import com.dmp.pojo.Resident;
 import com.dmp.repositories.ResidentRepository;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Repository;
 import javax.persistence.Query;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
+
 import javax.transaction.Transactional;
-import java.util.ArrayList;
+
 import java.util.List;
-import java.util.Map;
+
 
 @Repository
 @Transactional
@@ -24,42 +23,41 @@ public class ResidentRepositoryImpl implements ResidentRepository {
     private LocalSessionFactoryBean factoryBean;
 
     @Override
-    public List<Resident> getResident(Map<String, String> params) {
-        Session session = this.factoryBean.getObject().getCurrentSession();
-        CriteriaBuilder cb = session.getCriteriaBuilder();
-        CriteriaQuery<Resident> cq = cb.createQuery(Resident.class);
-        Root<Resident> root = cq.from(Resident.class);
-        cq.select(root);
-
-        List<Predicate> predicates = new ArrayList<>();
-        if (params != null) {
-            String kw = params.get("kw");
-            if (kw != null && !kw.isEmpty()) {
-                predicates.add(cb.like(root.get("avatar"), String.format("%%%s%%", kw)));
-            }
-        }
-        cq.where(predicates.toArray(new Predicate[0]));
-        cq.orderBy(cb.asc(root.get("id")));
-
-        Query query = session.createQuery(cq);
-        return query.getResultList();
+    public List<Resident> getResident() {
+            Session s = this.factoryBean.getObject().getCurrentSession();
+            Query query = s.createQuery(
+                    "SELECT r FROM Resident r WHERE r.user.role = :role AND r.user.isActive = true",
+                    Resident.class
+            );
+            query.setParameter("role", "Resident");
+            return query.getResultList();
     }
-
 
     @Override
     public void addOrUpdate(Resident resident) {
-        Session session = this.factoryBean.getObject().getCurrentSession();
-        if (resident.getId() != null && session.find(Resident.class, resident.getId()) != null) {
-            session.merge(resident);
-        } else {
-            session.persist(resident);
+        try {
+            Session session = this.factoryBean.getObject().getCurrentSession();
+            if (checkResident(resident)) {
+                session.merge(resident);
+            } else {
+                session.persist(resident);
+            }
+        } catch (HibernateException ex) {
+            ex.printStackTrace();
         }
     }
 
     @Override
     public Resident getResidentById(int id) {
-        Session session = this.factoryBean.getObject().getCurrentSession();
-        return session.get(Resident.class, id);
+        try {
+            Session s = this.factoryBean.getObject().getCurrentSession();
+            Query query = s.createQuery("from Resident r where r.id = :id");
+            query.setParameter("id", id);
+            return (Resident) query.getSingleResult();
+        } catch (HibernateException ex) {
+            ex.printStackTrace();
+            throw ex;
+        }
     }
 
     @Override
@@ -70,5 +68,31 @@ public class ResidentRepositoryImpl implements ResidentRepository {
             session.delete(resident);
         }
     }
+    //hàm này là lấy resident login á m bên m t k dám link bậy
+//    @Override
+//    public Resident getCurrentResident() {
+//        Session s = this.factoryBean.getObject().getCurrentSession();
+//        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+//        User u = this.userRepository.getUserByUsername(username);
+//
+//        Resident r = this.getResidentById(u.getId());
+//        if(r == null) {
+//            throw new AppException(ErrorCode.RESIDENT_NOT_FOUND);
+//        }
+//
+//        return r;
+//    }
+
+    @Override
+    public Boolean checkResident(Resident resident) {
+        Session s = this.factoryBean.getObject().getCurrentSession();
+        Query query = s.createQuery(
+                "SELECT (COUNT(r) > 0) FROM Resident r WHERE r.user.id = :id",
+                Boolean.class
+        );
+        query.setParameter("id", resident.getUser().getId());
+        return (Boolean) query.getSingleResult();
+    }
+
 }
 
