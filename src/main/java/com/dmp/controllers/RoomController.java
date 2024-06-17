@@ -3,6 +3,7 @@ package com.dmp.controllers;
 import com.dmp.pojo.Room;
 import com.dmp.services.FloorService;
 import com.dmp.services.RoomService;
+import com.dmp.services.ServiceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +18,9 @@ public class RoomController {
 
     @Autowired
     private RoomService roomService;
+
+    @Autowired
+    private ServiceService serviceService;
 
     @Autowired
     private FloorService floorService; // Inject FloorService
@@ -39,7 +43,7 @@ public class RoomController {
         if (!rs.hasErrors()) {
             try {
                 roomService.addOrUpdate(room);
-                return "redirect:/room";
+                return "redirect:/";
             } catch (Exception ex) {
                 System.err.println(ex.getMessage());
             }
@@ -52,5 +56,28 @@ public class RoomController {
         model.addAttribute("room", roomService.getRoomById(id));
         model.addAttribute("floors", floorService.getFloor(null)); // Add floors to model
         return "addroom";
+    }
+    @PostMapping("/rooms/updateStatus/{roomId}")
+    public String updateRoomStatus(@PathVariable("roomId") int roomId, @RequestParam("status") String status) {
+        try {
+            Room room = roomService.getRoomById(roomId);
+            roomService.updateStatus(room, status);
+            return "redirect:/";
+        } catch (Exception ex) {
+            System.err.println(ex.getMessage());
+            return "redirect:/";
+        }
+    }
+
+    @PostMapping("/rooms/updateStatusConTrong_DaThue/{roomId}")
+    public String updateRoomStatusConTrong_DaThue(@PathVariable("roomId") int roomId) {
+        try {
+            Room room = roomService.getRoomById(roomId);
+            roomService.updateStatusConTrong_DaThue(room);
+            return "redirect:/";
+        } catch (Exception ex) {
+            System.err.println(ex.getMessage());
+            return "redirect:/";
+        }
     }
 }

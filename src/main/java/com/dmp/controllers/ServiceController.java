@@ -27,7 +27,7 @@ public class ServiceController {
         return "services";
     }
     @PostMapping("/services")
-    public String createService(@ModelAttribute(value = "services") @Valid Services s, BindingResult rs) {
+    public String createService(@ModelAttribute(value = "services")  Services s, BindingResult rs) {
         if (!rs.hasErrors()) {
             try {
                 this.serviceService.addOrUpdate(s);

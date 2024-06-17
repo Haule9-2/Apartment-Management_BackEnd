@@ -28,7 +28,7 @@ public class ResidentController {
     }
 
     @PostMapping("/residents")
-    public String createResident(@ModelAttribute(value = "resident") @Valid Resident resident, BindingResult rs) {
+    public String addResident(@ModelAttribute(value = "resident") @Valid Resident resident, BindingResult rs) {
         if (!rs.hasErrors()) {
             try {
                 this.residentService.addOrUpdate(resident);

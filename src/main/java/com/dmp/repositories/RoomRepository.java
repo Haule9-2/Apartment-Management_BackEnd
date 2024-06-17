@@ -12,4 +12,7 @@ public interface RoomRepository {
     void deleteRoom(int id);
     void updateStatusConTrong_DaThue(Room room);
     void updateStatus(Room room, String newStatus);
+
+    class FamilyMemberRepository {
+    }
 }
