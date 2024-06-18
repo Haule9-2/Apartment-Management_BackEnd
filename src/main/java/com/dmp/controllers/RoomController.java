@@ -10,7 +10,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.Map;
 
 @Controller
@@ -39,7 +38,7 @@ public class RoomController {
     }
 
     @PostMapping("/rooms")
-    public String createRoom(@ModelAttribute(value = "room")  Room room, BindingResult rs) {
+    public String createRoom(@ModelAttribute(value = "room") Room room, BindingResult rs) {
         if (!rs.hasErrors()) {
             try {
                 roomService.addOrUpdate(room);

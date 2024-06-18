@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import javax.validation.Valid;
-
 @Controller
 public class ServiceController {
     @Autowired
@@ -27,7 +25,7 @@ public class ServiceController {
         return "services";
     }
     @PostMapping("/services")
-    public String createService(@ModelAttribute(value = "services")  Services s, BindingResult rs) {
+    public String createService(@ModelAttribute(value = "services") Services s, BindingResult rs) {
         if (!rs.hasErrors()) {
             try {
                 this.serviceService.addOrUpdate(s);

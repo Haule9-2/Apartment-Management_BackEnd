@@ -33,7 +33,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Cabinet.findAll", query = "SELECT c FROM Cabinet c"),
     @NamedQuery(name = "Cabinet.findById", query = "SELECT c FROM Cabinet c WHERE c.id = :id"),
-    @NamedQuery(name = "Cabinet.findByCabinetcol", query = "SELECT c FROM Cabinet c WHERE c.cabinetcol = :cabinetcol")})
+    @NamedQuery(name = "Cabinet.findByCabinetcol", query = "SELECT c FROM Cabinet c WHERE c.cabinetcol = :cabinetcol"),
+    @NamedQuery(name = "Cabinet.findByStatus", query = "SELECT c FROM Cabinet c WHERE c.status = :status")})
 public class Cabinet implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -45,6 +46,9 @@ public class Cabinet implements Serializable {
     @Size(max = 45)
     @Column(name = "cabinetcol")
     private String cabinetcol;
+    @Size(max = 9)
+    @Column(name = "status")
+    private String status;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "cabinetId")
     private Set<Item> itemSet;
     @JoinColumn(name = "contract_id", referencedColumnName = "id")
@@ -72,6 +76,14 @@ public class Cabinet implements Serializable {
 
     public void setCabinetcol(String cabinetcol) {
         this.cabinetcol = cabinetcol;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     @XmlTransient

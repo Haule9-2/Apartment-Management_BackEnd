@@ -5,9 +5,7 @@
 package com.dmp.pojo;
 
 import java.io.Serializable;
-import java.util.Set;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -15,12 +13,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -32,7 +28,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "FamilyMember.findAll", query = "SELECT f FROM FamilyMember f"),
     @NamedQuery(name = "FamilyMember.findById", query = "SELECT f FROM FamilyMember f WHERE f.id = :id"),
-    @NamedQuery(name = "FamilyMember.findByFullName", query = "SELECT f FROM FamilyMember f WHERE f.fullName = :fullName")})
+    @NamedQuery(name = "FamilyMember.findByFullName", query = "SELECT f FROM FamilyMember f WHERE f.fullName = :fullName"),
+    @NamedQuery(name = "FamilyMember.findByActive", query = "SELECT f FROM FamilyMember f WHERE f.active = :active")})
 public class FamilyMember implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -46,8 +43,8 @@ public class FamilyMember implements Serializable {
     @Size(min = 1, max = 45)
     @Column(name = "full_name")
     private String fullName;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "familyMemberId")
-    private Set<ParkingPermits> parkingPermitsSet;
+    @Column(name = "active")
+    private Short active;
     @JoinColumn(name = "resident_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Resident residentId;
@@ -80,13 +77,12 @@ public class FamilyMember implements Serializable {
         this.fullName = fullName;
     }
 
-    @XmlTransient
-    public Set<ParkingPermits> getParkingPermitsSet() {
-        return parkingPermitsSet;
+    public Short getActive() {
+        return active;
     }
 
-    public void setParkingPermitsSet(Set<ParkingPermits> parkingPermitsSet) {
-        this.parkingPermitsSet = parkingPermitsSet;
+    public void setActive(Short active) {
+        this.active = active;
     }
 
     public Resident getResidentId() {

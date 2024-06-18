@@ -5,10 +5,8 @@ import com.dmp.repositories.ResidentRepository;
 import com.dmp.services.ResidentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class ResidentServiceImpl implements ResidentService {
