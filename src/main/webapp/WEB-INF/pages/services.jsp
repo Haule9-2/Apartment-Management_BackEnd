@@ -14,12 +14,12 @@
     <h1 class="text-center text-info">QUẢN LÝ DỊCH VỤ</h1>
     <c:url value="/services" var="action" />
 
-    <form:form method="post" action="${action}" modelAttribute="services">
+        <form:form method="post" action="${action}" modelAttribute="services">
         <form:errors path="*" element="div" cssClass="alert alert-danger" />
 
         <div class="form-group">
             <label for="name">Tên dịch vụ:</label>
-            <form:input class="form-control" id="name" path="name" />
+            <form:input class="form-control" id="name" name="name" path="name" />
         </div>
         <div class="form-group">
             <label for="description">Mô tả:</label>
@@ -27,7 +27,7 @@
         </div>
         <div class="form-group">
             <label for="price">Giá:</label>
-            <form:input class="form-control" id="price" path="price" />
+            <form:input class="form-control" id="price" name="price" path="price" />
         </div>
         <!-- Bỏ phần select box của trạng thái -->
         <div class="form-floating">

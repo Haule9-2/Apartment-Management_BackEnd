@@ -1,8 +1,9 @@
 package com.dmp.controllers;
 
 import com.dmp.pojo.Room;
-import com.dmp.pojo.Services;
+import com.dmp.pojo.Floor;
 import com.dmp.services.RoomService;
+import com.dmp.services.FloorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,34 +15,42 @@ import java.util.Map;
 
 @Controller
 public class RoomController {
+
     @Autowired
     private RoomService roomService;
 
+    @Autowired  // Add this annotation to enable dependency injection
+    private FloorService floorService;
+
     @RequestMapping("/room")
-    public String FloorDetail(Model model, @RequestParam Map<String, String> params) {
+    public String floorDetail(Model model, @RequestParam Map<String, String> params) {
         model.addAttribute("rooms", this.roomService.getRooms(params));
+        model.addAttribute("floors", this.floorService.getFloor(params));
         return "room";
     }
+
     @GetMapping("/rooms")
-    public String createRoom(Model model) {
-        model.addAttribute("rooms", new Room());
+    public String createRoomForm(Model model) {
+        model.addAttribute("room", new Room());
         return "room";
     }
+
     @PostMapping("/rooms")
-    public String createService(@ModelAttribute(value = "rooms") @Valid Room s, BindingResult rs) {
-        if (!rs.hasErrors()) {
-            try {
-                this.roomService.addOrUpdate(s);
-                return "redirect:/";
-            } catch (Exception ex) {
-                System.err.println(ex.getMessage());
-            }
+    public String createOrUpdateRoom(@ModelAttribute("room") @Valid Room room, BindingResult result) {
+        if (result.hasErrors()) {
+            return "room";
         }
-        return "room";
+        try {
+            this.roomService.addOrUpdate(room);
+            return "redirect:/";
+        } catch (Exception ex) {
+            return "room";
+        }
     }
+
     @GetMapping("/rooms/{roomId}")
-    public String updateService(Model model, @PathVariable("roomId") int id) {
-        model.addAttribute("rooms",this.roomService.getRoomById(id));
+    public String updateRoomForm(Model model, @PathVariable("roomId") int roomId) {
+        model.addAttribute("room", this.roomService.getRoomById(roomId));
         return "room";
     }
 }

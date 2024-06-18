@@ -41,7 +41,7 @@ public class User {
     private String gender;
 
     @Column(name = "phone")
-    private Integer phone;
+    private Long phone;
 
     @Size(max = 45)
     @Column(name = "email", length = 45)
@@ -106,11 +106,11 @@ public class User {
         this.gender = gender;
     }
 
-    public Integer getPhone() {
+    public Long getPhone() {
         return phone;
     }
 
-    public void setPhone(Integer phone) {
+    public void setPhone(Long phone) {
         this.phone = phone;
     }
 

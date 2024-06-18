@@ -1,93 +1,42 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.dmp.pojo;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import java.io.Serializable;
-import java.util.Set;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
+import java.math.BigDecimal;
 
-/**
- *
- * @author Phuc
- */
 @Entity
 @Table(name = "room")
-@XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Room.findAll", query = "SELECT r FROM Room r"),
-    @NamedQuery(name = "Room.findById", query = "SELECT r FROM Room r WHERE r.id = :id"),
-    @NamedQuery(name = "Room.findByNumber", query = "SELECT r FROM Room r WHERE r.number = :number"),
-    @NamedQuery(name = "Room.findByPrice", query = "SELECT r FROM Room r WHERE r.price = :price"),
-    @NamedQuery(name = "Room.findByMaximum", query = "SELECT r FROM Room r WHERE r.maximum = :maximum"),
-    @NamedQuery(name = "Room.findByDescription", query = "SELECT r FROM Room r WHERE r.description = :description"),
-    @NamedQuery(name = "Room.findByStatus", query = "SELECT r FROM Room r WHERE r.status = :status")})
-public class Room implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+public class Room {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     private Integer id;
-    @Basic(optional = false)
+
+    @Size(max = 10)
     @NotNull
-    @Size(min = 1, max = 10)
-    @Column(name = "number")
+    @Column(name = "number", nullable = false, length = 10)
     private String number;
-    @Basic(optional = false)
+
     @NotNull
-    @Column(name = "price")
-    private long price;
+    @Column(name = "price", nullable = false, precision = 18)
+    private BigDecimal price;
+
     @Column(name = "maximum")
     private Integer maximum;
+
     @Size(max = 50)
-    @Column(name = "description")
+    @Column(name = "description", length = 50)
     private String description;
-    @Basic(optional = false)
+
     @NotNull
-    @Size(min = 1, max = 9)
-    @Column(name = "status")
+    @Lob
+    @Column(name = "status", nullable = false)
     private String status;
-    @JoinColumn(name = "floor", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "floor", nullable = false)
     private Floor floor;
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "roomId")
-    private Set<RentalContract> rentalContractSet;
-
-    public Room() {
-    }
-
-    public Room(Integer id) {
-        this.id = id;
-    }
-
-    public Room(Integer id, String number, long price, String status) {
-        this.id = id;
-        this.number = number;
-        this.price = price;
-        this.status = status;
-    }
 
     public Integer getId() {
         return id;
@@ -105,11 +54,11 @@ public class Room implements Serializable {
         this.number = number;
     }
 
-    public long getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(long price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 
@@ -145,38 +94,4 @@ public class Room implements Serializable {
         this.floor = floor;
     }
 
-    @XmlTransient
-    public Set<RentalContract> getRentalContractSet() {
-        return rentalContractSet;
-    }
-
-    public void setRentalContractSet(Set<RentalContract> rentalContractSet) {
-        this.rentalContractSet = rentalContractSet;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Room)) {
-            return false;
-        }
-        Room other = (Room) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "com.dmp.pojo.Room[ id=" + id + " ]";
-    }
-    
 }

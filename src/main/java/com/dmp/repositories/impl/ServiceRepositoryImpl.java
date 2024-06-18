@@ -67,7 +67,7 @@ public class ServiceRepositoryImpl implements ServiceRepository {
                 q.setFirstResult((p - 1) * pageSize);
             }
         }
-        List<Services> services = q.getResultList();
+            List<Services> services = q.getResultList();
         return services;
     }
 
@@ -107,7 +107,7 @@ public class ServiceRepositoryImpl implements ServiceRepository {
             return null;
         } catch (HibernateException ex) {
             ex.printStackTrace();
-           return null;
+            return null;
         }
     }
 
@@ -117,7 +117,7 @@ public class ServiceRepositoryImpl implements ServiceRepository {
             Session s = this.factoryBean.getObject().getCurrentSession();
             Services service = this.getServiceById(id);
             if (service != null) {
-                    s.delete(service);
+                s.delete(service);
             }
         } catch (HibernateException ex) {
             ex.printStackTrace(); // In ra thông tin lỗi

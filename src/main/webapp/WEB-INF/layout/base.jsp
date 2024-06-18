@@ -9,21 +9,23 @@
     </title>
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        th, td {
-            padding: 10px;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-    </style>
+
 </head>
 <body>
-<tiles:insertAttribute name="header"/>
-<section class="container">
-    <tiles:insertAttribute name="content"/>
-</section>
-<tiles:insertAttribute name="footer"/>
+<body>
+<div class="wrapper">
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <tiles:insertAttribute name="sidebar"/>
+    </div>
+
+    <!-- Main content area -->
+    <div class="main p-3">
+        <div class="text-center">
+            <tiles:insertAttribute name="content"/>
+        </div>
+    </div>
+</div>
+</body>
 </body>
 </html>
