@@ -34,4 +34,8 @@
         <put-attribute name="title" value="Thêm Phòng" />
         <put-attribute name="content" value="/WEB-INF/pages/addroom.jsp" />
     </definition>
+    <definition name="orderSuccess" template="/WEB-INF/pages/VNPAYsuccess.jsp">
+    </definition>
+    <definition name="orderFail" template="/WEB-INF/pages/VNPAYfail.jsp">
+    </definition>
 </tiles-definitions>
