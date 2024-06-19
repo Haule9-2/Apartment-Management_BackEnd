@@ -55,7 +55,7 @@ public class ResidentRepositoryImpl implements ResidentRepository {
             return (Resident) query.getSingleResult();
         } catch (HibernateException ex) {
             ex.printStackTrace();
-            throw ex;
+            return null;
         }
     }
 
