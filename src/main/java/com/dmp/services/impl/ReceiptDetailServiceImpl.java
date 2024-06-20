@@ -2,7 +2,6 @@ package com.dmp.services.impl;
 
 import com.dmp.pojo.ReceiptDetail;
 import com.dmp.repositories.ReceiptDetailRepository;
-import com.dmp.repositories.ResidentRepository;
 import com.dmp.services.ReceiptDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

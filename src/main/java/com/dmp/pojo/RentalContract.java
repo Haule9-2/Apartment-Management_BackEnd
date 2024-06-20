@@ -58,13 +58,14 @@ public class RentalContract implements Serializable {
     private long deposit;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "created_date")
+    @Column(name = "end_date")
     @Temporal(TemporalType.DATE)
     private Date createdDate;
     @Basic(optional = false)
     @NotNull
     @Column(name = "started_date")
     @Temporal(TemporalType.DATE)
+
     private Date startedDate;
     @JoinColumn(name = "resident_id", referencedColumnName = "id")
     @ManyToOne(optional = false)

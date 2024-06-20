@@ -31,12 +31,16 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "item")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Item.findAll", query = "SELECT i FROM Item i"),
-    @NamedQuery(name = "Item.findById", query = "SELECT i FROM Item i WHERE i.id = :id"),
-    @NamedQuery(name = "Item.findByName", query = "SELECT i FROM Item i WHERE i.name = :name"),
-    @NamedQuery(name = "Item.findByDescription", query = "SELECT i FROM Item i WHERE i.description = :description"),
-    @NamedQuery(name = "Item.findByDeliveryDate", query = "SELECT i FROM Item i WHERE i.deliveryDate = :deliveryDate")})
+        @NamedQuery(name = "Item.findAll", query = "SELECT i FROM Item i"),
+        @NamedQuery(name = "Item.findById", query = "SELECT i FROM Item i WHERE i.id = :id"),
+        @NamedQuery(name = "Item.findByName", query = "SELECT i FROM Item i WHERE i.name = :name"),
+        @NamedQuery(name = "Item.findByDescription", query = "SELECT i FROM Item i WHERE i.description = :description"),
+        @NamedQuery(name = "Item.findByDeliveryDate", query = "SELECT i FROM Item i WHERE i.deliveryDate = :deliveryDate")})
 public class Item implements Serializable {
+
+    @Column(name = "received_date")
+    @Temporal(TemporalType.DATE)
+    private Date receivedDate;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -138,5 +142,13 @@ public class Item implements Serializable {
     public String toString() {
         return "com.dmp.pojo.Item[ id=" + id + " ]";
     }
-    
+
+    public Date getReceivedDate() {
+        return receivedDate;
+    }
+
+    public void setReceivedDate(Date receivedDate) {
+        this.receivedDate = receivedDate;
+    }
+
 }

@@ -59,7 +59,7 @@ public class FamilyMemberRepositoryImpl implements FamilyMemberRepository {
     }
 
     @Override
-    public FamilyMember  addFamilyMember(FamilyMember familyMember) {
+    public FamilyMember addFamilyMember(FamilyMember familyMember) {
         // Lấy tên người dùng từ SecurityContext
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         // Lấy User từ repository

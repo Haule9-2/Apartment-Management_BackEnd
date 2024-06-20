@@ -2,8 +2,6 @@ package com.dmp.services;
 
 import com.dmp.pojo.User;
 
-import java.util.Map;
-
 public interface UserService {
     User getUserByUsername(String username);
     User getUserById(int id);

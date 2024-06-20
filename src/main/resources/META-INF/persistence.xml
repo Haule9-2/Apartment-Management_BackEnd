@@ -27,6 +27,7 @@
     <class>com.dmp.pojo.Receipt</class>
     <class>com.dmp.pojo.ReceiptDetail</class>
     <class>com.dmp.pojo.ParkingPermits</class>
+    <class>com.dmp.pojo.Responses</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/apartmentdb?zeroDateTimeBehavior=CONVERT_TO_NULL"/>

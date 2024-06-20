@@ -4,10 +4,7 @@ import com.dmp.pojo.User;
 import com.dmp.repositories.UserRepository;
 import com.dmp.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Map;
 
 @Service
 public class UserServiceImpl implements UserService {

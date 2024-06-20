@@ -54,6 +54,8 @@ public class Resident implements Serializable {
     private Set<FamilyMember> familyMemberSet;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "residentId")
     private Set<Roommate> roommateSet;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "residentID")
+    private Set<Responses> responsesSet;
     @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
     @OneToOne(optional = false)
     private User user;
@@ -120,6 +122,15 @@ public class Resident implements Serializable {
 
     public void setRoommateSet(Set<Roommate> roommateSet) {
         this.roommateSet = roommateSet;
+    }
+
+    @XmlTransient
+    public Set<Responses> getResponsesSet() {
+        return responsesSet;
+    }
+
+    public void setResponsesSet(Set<Responses> responsesSet) {
+        this.responsesSet = responsesSet;
     }
 
     public User getUser() {

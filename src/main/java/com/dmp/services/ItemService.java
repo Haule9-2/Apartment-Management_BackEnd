@@ -1,13 +1,13 @@
-package com.dmp.repositories;
+package com.dmp.services;
 
 import com.dmp.pojo.Item;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-public interface ItemRepository {
+public interface ItemService {
     List<Item> getItem(Map<String, String> params);
     void addOrUpdateItem(Item item);
     void setReceivedDate(Item item);
+
 }

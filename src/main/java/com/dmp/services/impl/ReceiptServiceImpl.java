@@ -2,7 +2,6 @@ package com.dmp.services.impl;
 
 import com.dmp.pojo.Receipt;
 import com.dmp.pojo.Services;
-import com.dmp.repositories.ReceiptDetailRepository;
 import com.dmp.repositories.ReceiptRepository;
 import com.dmp.services.ReceiptService;
 import org.springframework.beans.factory.annotation.Autowired;
