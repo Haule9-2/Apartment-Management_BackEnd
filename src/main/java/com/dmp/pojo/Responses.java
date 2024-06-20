@@ -12,13 +12,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -29,8 +27,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "responses")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Responses.findAll", query = "SELECT r FROM Responses r"),
-    @NamedQuery(name = "Responses.findByResponseID", query = "SELECT r FROM Responses r WHERE r.responseID = :responseID")})
+        @NamedQuery(name = "Responses.findAll", query = "SELECT r FROM Responses r"),
+        @NamedQuery(name = "Responses.findByResponseID", query = "SELECT r FROM Responses r WHERE r.responseID = :responseID"),
+        @NamedQuery(name = "Responses.findByAnswer", query = "SELECT r FROM Responses r WHERE r.answer = :answer")})
 public class Responses implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -41,10 +40,8 @@ public class Responses implements Serializable {
     private Integer responseID;
     @Basic(optional = false)
     @NotNull
-    @Lob
-    @Size(min = 1, max = 65535)
     @Column(name = "Answer")
-    private String answer;
+    private int answer;
     @JoinColumn(name = "QuestionID", referencedColumnName = "QuestionID")
     @ManyToOne(optional = false)
     private Questions questionID;
@@ -62,7 +59,7 @@ public class Responses implements Serializable {
         this.responseID = responseID;
     }
 
-    public Responses(Integer responseID, String answer) {
+    public Responses(Integer responseID, int answer) {
         this.responseID = responseID;
         this.answer = answer;
     }
@@ -75,11 +72,11 @@ public class Responses implements Serializable {
         this.responseID = responseID;
     }
 
-    public String getAnswer() {
+    public int getAnswer() {
         return answer;
     }
 
-    public void setAnswer(String answer) {
+    public void setAnswer(int answer) {
         this.answer = answer;
     }
 
@@ -131,5 +128,5 @@ public class Responses implements Serializable {
     public String toString() {
         return "com.dmp.pojo.Responses[ responseID=" + responseID + " ]";
     }
-    
+
 }

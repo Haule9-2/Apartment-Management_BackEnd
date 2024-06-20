@@ -32,10 +32,9 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "questions")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Questions.findAll", query = "SELECT q FROM Questions q"),
-    @NamedQuery(name = "Questions.findByQuestionID", query = "SELECT q FROM Questions q WHERE q.questionID = :questionID"),
-    @NamedQuery(name = "Questions.findByQuestionText", query = "SELECT q FROM Questions q WHERE q.questionText = :questionText"),
-    @NamedQuery(name = "Questions.findByQuestionType", query = "SELECT q FROM Questions q WHERE q.questionType = :questionType")})
+        @NamedQuery(name = "Questions.findAll", query = "SELECT q FROM Questions q"),
+        @NamedQuery(name = "Questions.findByQuestionID", query = "SELECT q FROM Questions q WHERE q.questionID = :questionID"),
+        @NamedQuery(name = "Questions.findByQuestionText", query = "SELECT q FROM Questions q WHERE q.questionText = :questionText")})
 public class Questions implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -49,11 +48,6 @@ public class Questions implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "QuestionText")
     private String questionText;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
-    @Column(name = "QuestionType")
-    private String questionType;
     @JoinColumn(name = "SurveyID", referencedColumnName = "SurveyID")
     @ManyToOne(optional = false)
     private Surveys surveyID;
@@ -67,10 +61,9 @@ public class Questions implements Serializable {
         this.questionID = questionID;
     }
 
-    public Questions(Integer questionID, String questionText, String questionType) {
+    public Questions(Integer questionID, String questionText) {
         this.questionID = questionID;
         this.questionText = questionText;
-        this.questionType = questionType;
     }
 
     public Integer getQuestionID() {
@@ -87,14 +80,6 @@ public class Questions implements Serializable {
 
     public void setQuestionText(String questionText) {
         this.questionText = questionText;
-    }
-
-    public String getQuestionType() {
-        return questionType;
-    }
-
-    public void setQuestionType(String questionType) {
-        this.questionType = questionType;
     }
 
     public Surveys getSurveyID() {
@@ -138,5 +123,5 @@ public class Questions implements Serializable {
     public String toString() {
         return "com.dmp.pojo.Questions[ questionID=" + questionID + " ]";
     }
-    
+
 }
