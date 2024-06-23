@@ -26,9 +26,5 @@ public class HomeController {
     private Cloudinary cloudinary;
 
 
-    @RequestMapping("/")
-    public String Index(Model model, @RequestParam Map<String, String> params) {
-        model.addAttribute("services", this.serviceService.getServices(params));
-        return "index";
-    }
+
 }

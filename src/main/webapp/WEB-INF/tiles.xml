@@ -7,17 +7,27 @@
         <put-attribute name="sidebar" value="/WEB-INF/layout/sidebar.jsp"/>
         <put-attribute name="content" value=""/>
     </definition>
-    <definition name="baseLayoutWithoutSidebar" template="/WEB-INF/layout/base.jsp">
-        <put-attribute name="title" value=""/>
-        <put-attribute name="content" value=""/>
-    </definition>
-    <definition name="login" extends="baseLayout">
-        <put-attribute name="title" value="Đăng nhập" />
-        <put-attribute name="content" value="/WEB-INF/pages/login.jsp" />
+    <definition name="login" template="/WEB-INF/pages/login.jsp">
     </definition>
     <definition name="admin" extends="baseLayout">
         <put-attribute name="title" value="Trang Admin" />
         <put-attribute name="content" value="/WEB-INF/pages/admin.jsp" />
+    </definition>
+    <definition name="admin" extends="baseLayout">
+        <put-attribute name="title" value="Thống kê" />
+        <put-attribute name="content" value="/WEB-INF/pages/dashboard.jsp" />
+    </definition>
+    <definition name="add-room" extends="baseLayout">
+        <put-attribute name="title" value="Thêm phòng" />
+        <put-attribute name="content" value="/WEB-INF/pages/addRoom.jsp" />
+    </definition>
+    <definition name="list-room" extends="baseLayout">
+        <put-attribute name="title" value="Danh sach phòng" />
+        <put-attribute name="content" value="/WEB-INF/pages/roomList.jsp" />
+    </definition>
+    <definition name="resident-list" extends="baseLayout">
+        <put-attribute name="title" value="Thông tin dân cư" />
+        <put-attribute name="content" value="/WEB-INF/pages/resident-list.jsp" />
     </definition>
     <definition name="index" extends="baseLayout">
         <put-attribute name="title" value="Trang chủ chung cư" />
@@ -27,6 +37,10 @@
         <put-attribute name="title" value="Dịch Vụ" />
         <put-attribute name="content" value="/WEB-INF/pages/services.jsp" />
     </definition>
+    <definition name="services" extends="baseLayout">
+        <put-attribute name="title" value="Danh Sách Dịch Vụ" />
+        <put-attribute name="content" value="/WEB-INF/pages/service.jsp" />
+    </definition>
     <definition name="floor" extends="baseLayout">
         <put-attribute name="title" value="Tầng" />
         <put-attribute name="content" value="/WEB-INF/pages/floor.jsp" />
@@ -35,4 +49,5 @@
         <put-attribute name="title" value="Phòng" />
         <put-attribute name="content" value="/WEB-INF/pages/room.jsp" />
     </definition>
+
 </tiles-definitions>

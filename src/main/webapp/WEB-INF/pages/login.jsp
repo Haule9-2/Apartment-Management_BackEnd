@@ -11,7 +11,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Đăng Nhập</title>
+    <title>Login</title>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <style>
@@ -30,6 +30,17 @@
             width: 100%;
         }
     </style>
+
+    <script>
+        // JavaScript to display alert when login fails
+        const urlParams = new URLSearchParams(window.location.search);
+        const errorParam = urlParams.get('error');
+        if (errorParam !== null && errorParam === 'true') {
+            window.onload = function() {
+                alert("Login failed! Please check your credentials and try again.");
+            }
+        }
+    </script>
 </head>
 <body>
 
@@ -44,7 +55,7 @@
             </div>
             <div class="form-group">
                 <label for="password">Password</label>
-                <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                <input type="password" class="form-control" id="password" name="password" placeholder="Password" autocomplete="current-password">
             </div>
             <div class="form-group form-check">
                 <input type="checkbox" class="form-check-input" id="exampleCheck1">

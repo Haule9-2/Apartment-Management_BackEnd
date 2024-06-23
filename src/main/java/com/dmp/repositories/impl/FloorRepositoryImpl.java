@@ -62,4 +62,9 @@ public class FloorRepositoryImpl implements FloorRepository {
 
         return query.getResultList();
     }
+    @Override
+    public Floor findById(int id) {
+        Session session = sessionFactory.getObject().getCurrentSession();
+        return session.get(Floor.class, id);
+    }
 }

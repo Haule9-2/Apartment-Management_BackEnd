@@ -20,11 +20,9 @@
     </div>
 
     <!-- Main content area -->
-    <div class="main p-3">
-        <div class="text-center">
-            <tiles:insertAttribute name="content"/>
-        </div>
-    </div>
+
+    <tiles:insertAttribute name="content"/>
+
 </div>
 </body>
 </body>

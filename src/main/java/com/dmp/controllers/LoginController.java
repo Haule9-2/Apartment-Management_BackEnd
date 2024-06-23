@@ -8,17 +8,32 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import com.dmp.services.UserService;
 import com.dmp.pojo.User;
-import javax.servlet.http.HttpSession;
-import org.springframework.http.ResponseEntity;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Controller
 public class LoginController {
+
+    private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
 
     @Autowired
     private UserService userService;
 
     @GetMapping("/login")
-    public String login() {
+    public String login(@RequestParam(value = "error", required = false) String error,
+                        @RequestParam(value = "logout", required = false) String logout,
+                        Model model) {
+        if (error != null) {
+            model.addAttribute("error", "Invalid username or password!");
+        }
+        if (logout != null) {
+            model.addAttribute("message", "Logged out successfully!");
+        }
         return "login"; // Returns the login page (login.jsp or login.html)
     }
 
@@ -33,13 +48,18 @@ public class LoginController {
             }
         }
         // If authentication fails or role is not recognized, redirect back to login page with error
-        model.addAttribute("error", true);
-        return "login"; // Return to login page with error flag
+        model.addAttribute("error", "Invalid username or password!");
+        return "login"; // Return to login page with error message
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<String> logout() {
-        // Handle logout logic here
-        return ResponseEntity.ok("Logged out successfully!");
+    public String logout(HttpServletRequest request, HttpServletResponse response) {
+        logger.info("Logout endpoint reached.");
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null) {
+            logger.info("Invalidating session and clearing security context.");
+            new SecurityContextLogoutHandler().logout(request, response, auth);
+        }
+        return "redirect:/login?logout=true"; // Redirect to login page with logout parameter
     }
 }

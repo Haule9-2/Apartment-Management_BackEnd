@@ -29,7 +29,6 @@
             <label for="price">Giá:</label>
             <form:input class="form-control" id="price" name="price" path="price" />
         </div>
-        <!-- Bỏ phần select box của trạng thái -->
         <div class="form-floating">
             <button class="btn btn-info mt-1" type="submit">
                 <c:choose>

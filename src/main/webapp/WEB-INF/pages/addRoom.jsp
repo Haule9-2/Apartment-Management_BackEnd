@@ -39,7 +39,11 @@
         </div>
         <div class="form-group">
             <label for="status">Trạng Thái:</label>
-            <form:input class="form-control" id="status" path="status" required="true"/>
+            <form:select class="form-control" id="status" path="status" required="true">
+                <form:option value="">Chọn trạng thái</form:option>
+                <form:option value="còn trống">Còn trống</form:option>
+                <form:option value="đã thuê">Đã thuê</form:option>
+            </form:select>
             <form:errors path="status" cssClass="text-danger"/>
         </div>
         <div class="form-group">
@@ -64,22 +68,61 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script>
-    // Disable form submissions if there are invalid fields
-    (function() {
-        'use strict';
-        window.addEventListener('load', function() {
-            var forms = document.getElementsByClassName('needs-validation');
-            var validation = Array.prototype.filter.call(forms, function(form) {
-                form.addEventListener('submit', function(event) {
-                    if (form.checkValidity() === false) {
-                        event.preventDefault();
-                        event.stopPropagation();
-                    }
-                    form.classList.add('was-validated');
-                }, false);
-            });
-        }, false);
-    })();
+    window.addEventListener('load', function() {
+        var forms = document.getElementsByClassName('needs-validation');
+        var validation = Array.prototype.filter.call(forms, function(form) {
+            form.addEventListener('submit', function(event) {
+                if (form.checkValidity() === false || !validateForm()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    alert("Form validation failed. Please check the fields.");
+                }
+                form.classList.add('was-validated');
+            }, false);
+        });
+    });
+
+    function validateForm() {
+        var number = document.getElementById("number").value.trim();
+        var price = document.getElementById("price").value.trim();
+        var maximum = document.getElementById("maximum").value.trim();
+        var description = document.getElementById("description").value.trim();
+        var status = document.getElementById("status").value.trim();
+        var floor = document.getElementById("floor").value.trim();
+
+        if (number === "") {
+            alert("Số Phòng không được để trống");
+            return false;
+        }
+
+        if (price === "") {
+            alert("Giá không được để trống");
+            return false;
+        }
+
+        if (isNaN(parseFloat(price)) || parseFloat(price) <= 0) {
+            alert("Giá phải là một số dương");
+            return false;
+        }
+
+        if (maximum !== "" && (isNaN(parseInt(maximum)) || parseInt(maximum) <= 0)) {
+            alert("Số Người Tối Đa phải là một số dương");
+            return false;
+        }
+
+        if (status === "") {
+            alert("Trạng Thái không được để trống");
+            return false;
+        }
+
+        if (floor === "") {
+            alert("Tầng không được để trống");
+            return false;
+        }
+
+        return true;
+    }
+
 </script>
 </body>
 </html>

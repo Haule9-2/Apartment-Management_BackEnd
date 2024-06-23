@@ -1,14 +1,18 @@
+
 package com.dmp.repositories;
 
 import com.dmp.pojo.Resident;
-import com.dmp.pojo.Services;
 
 import java.util.List;
-import java.util.Map;
 
 public interface ResidentRepository {
-    List<Resident> getResident(Map<String, String> params);
+    List<Resident> getResident();
     void addOrUpdate(Resident resident);
     Resident getResidentById(int id);
     void deleteResident(int id);
+    //    Resident getCurrentResident();
+    Boolean checkResident(Resident resident);
+    List<Resident> findByRoomId(int roomId);
+
+
 }

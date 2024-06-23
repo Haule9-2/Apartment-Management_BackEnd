@@ -1,5 +1,3 @@
-package com.dmp.configs;
-
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -21,7 +19,7 @@ import org.springframework.web.filter.CorsFilter;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private DataSource dataSource;  // Injecting DataSource bean from HibernateConfig
+    private DataSource dataSource;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -35,22 +33,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .cors().and()  // Enable CORS
-                .csrf().disable()  // Disable CSRF for simplicity, enable it based on your use case
+                .cors().and()
+                .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/admin").hasRole("ADMIN") // Require ADMIN role to access /admin
-                .antMatchers("/login").permitAll() // Allow access to login page for everyone
-                .anyRequest().authenticated() // Require authentication for any other request
+                .antMatchers("/login", "/logout", "/access-denied").permitAll()
+                .antMatchers("/admin/**").hasRole("ADMIN")
+                .anyRequest().authenticated()
                 .and()
-                .formLogin() // Configure form-based authentication
-                .loginPage("/login") // Specify custom login page
-                .permitAll() // Allow access to login page for everyone
+                .formLogin()
+                .loginPage("/login")
+                .failureUrl("/login?error=true")
+                .defaultSuccessUrl("/api/check-session")
+                .permitAll()
                 .and()
-                .logout() // Configure logout
-                .permitAll() // Allow access to logout URL for everyone
+                .logout()
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/login?logout=true")
+                .permitAll()
                 .and()
-                .exceptionHandling() // Configure exception handling
-                .accessDeniedPage("/access-denied"); // Custom access denied page
+                .exceptionHandling()
+                .accessDeniedPage("/access-denied");
     }
 
     @Bean

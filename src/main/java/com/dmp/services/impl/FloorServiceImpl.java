@@ -17,4 +17,8 @@ public class FloorServiceImpl implements FloorService {
     public List<Floor> getFloor(Map<String, String> params) {
         return this.repo.getFloor(params);
     }
+    @Override
+    public Floor getFloorById(int id) {
+        return repo.findById(id);
+    }
 }

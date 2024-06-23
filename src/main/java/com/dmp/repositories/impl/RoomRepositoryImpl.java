@@ -1,7 +1,6 @@
 package com.dmp.repositories.impl;
 
 import com.dmp.pojo.Room;
-import com.dmp.pojo.Services;
 import com.dmp.repositories.RoomRepository;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;

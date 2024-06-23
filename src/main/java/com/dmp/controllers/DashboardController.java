@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class DashboardController {
 
-    @GetMapping("admin//dashboard")
+    @GetMapping("/dashboard")
     public String dashboard() {
 //        model.addAttribute("residents", dashboardService.getAllResidents());
 //        model.addAttribute("floors", dashboardService.getAllFloors());

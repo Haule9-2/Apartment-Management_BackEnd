@@ -35,27 +35,23 @@
         </div>
         <ul class="sidebar-nav">
             <li class="sidebar-item">
-                <a href="#" class="sidebar-link">
+                <a href="<c:url value='/dashboard' />" class="sidebar-link">
                     <i class="lni lni-user"></i>
-                    <span>Hồ sơ</span>
+                    <span>Thống kê </span>
                 </a>
             </li>
             <li class="sidebar-item">
-                <a href="<c:url value='/floor' />" class="sidebar-link">
+                <a href="<c:url value='/room' />" class="sidebar-link">
                     <i class="lni lni-apartment"></i>
                     <span>Phòng</span>
                 </a>
             </li>
             <li class="sidebar-item">
-                <a href="<c:url value='/services' />" class="sidebar-link">
+                <a href="<c:url value='/service' />" class="sidebar-link">
                     <i class="lni lni-service"></i>
                     <span>Dịch vụ</span>
                 </a>
-            </li>     <li class="sidebar-item">
-            <a href="" class="sidebar-link">
-                <i class="lni lni-apartment"></i>
-                <span>Phòng</span>
-            </a>
+
         </li>     <li class="sidebar-item">
             <a href="#" class="sidebar-link">
                 <i class="lni lni-archive"></i>
@@ -114,11 +110,16 @@
             </li>
         </ul>
         <div class="sidebar-footer">
-            <a href="#" class="sidebar-link">
+            <a href="#" onclick="document.getElementById('logoutForm').submit(); return false;" class="sidebar-link">
                 <i class="lni lni-exit"></i>
                 <span>Logout</span>
             </a>
         </div>
+
+        <form id="logoutForm" action="/logout" method="post" style="display: none;">
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+        </form>
+
     </aside>
     <div class="main p-3">
 

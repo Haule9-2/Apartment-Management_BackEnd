@@ -7,12 +7,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Map;
 
 @Controller
 public class ServiceController {
@@ -26,6 +24,12 @@ public class ServiceController {
         model.addAttribute("services", new Services());
         return "services";
     }
+    @RequestMapping("/service")
+    public String Index(Model model, @RequestParam Map<String, String> params) {
+        model.addAttribute("services", this.serviceService.getServices(params));
+        return "service";
+    }
+
     @PostMapping("/services")
     public String createService(@ModelAttribute(value = "services") @Valid Services s, BindingResult rs) {
         if (!rs.hasErrors()) {
