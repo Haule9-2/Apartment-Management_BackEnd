@@ -36,6 +36,11 @@ public class CabinetServiceImpl implements CabinetService {
     }
 
     @Override
+    public Boolean checkActiveCabinet(int cabinetId) {
+        return this.repo.checkActiveCabinet(cabinetId);
+    }
+
+    @Override
     public void closeCabinets() {
         this.repo.closeCabinets();
 

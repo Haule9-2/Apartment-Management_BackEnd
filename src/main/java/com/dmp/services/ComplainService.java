@@ -16,4 +16,5 @@ public interface ComplainService {
     void updateComplaint(Complaint c);
 
     Complaint getComplaintById(int id);
+    Long countComplaints();
 }

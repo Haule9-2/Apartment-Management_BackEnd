@@ -22,4 +22,9 @@ public class FamilyMemberServiceImpl implements FamilyMemberService {
     public FamilyMember addFamilyMember(FamilyMember familyMember) {
         return this.repo.addFamilyMember(familyMember);
     }
+
+    @Override
+    public void deleteFamilyMember(int id) {
+        this.repo.deleteFamilyMember(id);
+    }
 }

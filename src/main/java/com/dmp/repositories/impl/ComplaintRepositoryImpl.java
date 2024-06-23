@@ -15,6 +15,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -115,5 +116,23 @@ public class ComplaintRepositoryImpl implements ComplaintRepository {
         q.setParameter("id", id);
         List<Complaint> result = q.getResultList();
         return result.isEmpty() ? null : result.get(0);
+    }
+
+    @Override
+    public Long countComplaints() {
+        Session session = factoryBean.getObject().getCurrentSession();
+        CriteriaBuilder cb = session.getCriteriaBuilder();
+        CriteriaQuery<Long> cq = cb.createQuery(Long.class);
+        Root<Complaint> r = cq.from(Complaint.class);
+        cq.multiselect(cb.count(r.get("id")));
+
+        List<Predicate> predicates = new ArrayList<>();
+        predicates.add(cb.equal(cb.function("MONTH", Integer.class, r.get("createdDate")), LocalDate.now().getMonthValue()));
+
+        cq.where(predicates.toArray(Predicate[]::new));
+
+        Query query = session.createQuery(cq);
+
+        return (Long) query.getSingleResult();
     }
 }

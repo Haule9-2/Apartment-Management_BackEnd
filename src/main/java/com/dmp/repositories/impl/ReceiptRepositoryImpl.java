@@ -29,7 +29,6 @@ public class ReceiptRepositoryImpl implements ReceiptRepository {
     public List<Receipt> getAllReceipt(Map<String, String> params) {
         Session s = this.factoryBean.getObject().getCurrentSession();
 
-        // Lấy tên người dùng hiện tại từ SecurityContextHolder
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         Query q = s.createQuery("from User r where r.username = :username");
         q.setParameter("username", username);
@@ -41,7 +40,6 @@ public class ReceiptRepositoryImpl implements ReceiptRepository {
         cq.select(r);
         List<Predicate> predicates = new ArrayList<>();
 
-        // Kiểm tra vai trò của người dùng
         if (u.getRole().equals("resident")) {
             // Nếu là cư dân, chỉ lấy biên lai liên quan đến cư dân này
             Root<RentalContract> rt = cq.from(RentalContract.class);
@@ -56,6 +54,32 @@ public class ReceiptRepositoryImpl implements ReceiptRepository {
 
         List<Receipt> receipts = rs.getResultList();
         return receipts;
+    }
+
+    @Override
+    public List<Receipt> getAllReceiptsByResidentID(int residentID) {
+        try {
+            Session session = this.factoryBean.getObject().getCurrentSession();
+            CriteriaBuilder cb = session.getCriteriaBuilder();
+            CriteriaQuery<Receipt> cq = cb.createQuery(Receipt.class);
+            Root<Receipt> receiptRoot = cq.from(Receipt.class);
+            Root<RentalContract> contractRoot = cq.from(RentalContract.class);
+
+            List<Predicate> predicates = new ArrayList<>();
+
+            predicates.add(cb.equal(contractRoot.get("resident").get("id"), residentID));
+            predicates.add(cb.equal(contractRoot.get("id"), receiptRoot.get("contractId").get("id")));
+
+            predicates.add(cb.like(receiptRoot.get("status"), String.format("%%%s%%", "Chưa thu")));
+
+            cq.select(receiptRoot).where(predicates.toArray(new Predicate[0]));
+
+            Query query = session.createQuery(cq);
+            return query.getResultList();
+        } catch (HibernateException ex) {
+            ex.printStackTrace();
+            return null;
+        }
     }
 
     @Override
@@ -127,8 +151,17 @@ public class ReceiptRepositoryImpl implements ReceiptRepository {
     @Override
     public void updateReceipt(Receipt receipt) {
         Session session = this.factoryBean.getObject().getCurrentSession();
-        session.update(receipt);
 
+        Receipt rp = session.get(Receipt.class, receipt.getId());
+        if (rp != null) {
+
+            rp.setTotal(receipt.getTotal());
+            rp.setStatus(receipt.getStatus());
+
+            session.update(rp);
+        } else {
+            throw new RuntimeException("Receipt not found");
+        }
     }
 }
 

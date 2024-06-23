@@ -45,4 +45,9 @@ public class ComplainServiceImpl implements ComplainService {
     public Complaint getComplaintById(int id) {
         return this.repo.getComplaintById(id);
     }
+
+    @Override
+    public Long countComplaints() {
+        return this.repo.countComplaints();
+    }
 }

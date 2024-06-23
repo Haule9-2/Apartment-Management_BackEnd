@@ -20,4 +20,20 @@ public class ReceiptDetailServiceImpl implements ReceiptDetailService {
     public List<ReceiptDetail> getReceiptDetailsByServiceId(int serviceId) {
         return this.repo.getReceiptDetailsByServiceId(serviceId);
     }
+
+    @Override
+    public void saveDetailReceipt(ReceiptDetail receiptDetail) {
+        this.repo.saveDetailReceipt(receiptDetail);
+    }
+
+    @Override
+    public void deleteDetailReceiptById(int id) {
+        this.repo.deleteDetailReceiptById(id);
+    }
+
+    @Override
+    public void updateDetailReceipt(ReceiptDetail receiptDetail) {
+        this.repo.updateDetailReceipt(receiptDetail);
+
+    }
 }

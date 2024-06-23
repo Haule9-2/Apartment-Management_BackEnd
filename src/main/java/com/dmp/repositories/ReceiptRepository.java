@@ -8,6 +8,7 @@ import java.util.Map;
 
 public interface ReceiptRepository {
     List<Receipt> getAllReceipt(Map<String, String> params);
+    List<Receipt> getAllReceiptsByResidentID(int residentID);
 
     Receipt getReceiptById(int id);
 

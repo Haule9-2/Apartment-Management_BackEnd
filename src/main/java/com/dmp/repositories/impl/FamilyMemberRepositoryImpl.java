@@ -60,28 +60,46 @@ public class FamilyMemberRepositoryImpl implements FamilyMemberRepository {
 
     @Override
     public FamilyMember addFamilyMember(FamilyMember familyMember) {
-        // Lấy tên người dùng từ SecurityContext
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        // Lấy User từ repository
         User u = this.userRepository.getUserByUsername(username);
-        if (u == null) {
-            throw new RuntimeException("User not found");
-        }
 
-        // Lấy session hiện tại
         Session s = this.sessionFactory.getObject().getCurrentSession();
+        CriteriaBuilder builder = s.getCriteriaBuilder();
 
-        // Lấy Resident dựa trên ID của User
-        Resident r = this.residentRepository.getResidentById(u.getId());
-        if (r == null) {
-            throw new RuntimeException("Resident not found");
+        List<Predicate> predicates = new ArrayList<>();
+
+        if (u == null) {
+            predicates.add(builder.isNull(builder.literal(u)));
+        } else {
+            Resident r = this.residentRepository.getResidentById(u.getId());
+            if (r == null) {
+                predicates.add(builder.isNull(builder.literal(r)));
+            } else {
+                familyMember.setResidentId(r);
+                familyMember.setFullName(familyMember.getFullName());
+                familyMember.setActive((short) 1);
+                s.save(familyMember);
+            }
         }
 
-        // Thiết lập các thông tin cần thiết cho FamilyMember
-        familyMember.setResidentId(r);
-        familyMember.setFullName(familyMember.getFullName());
-        familyMember.setActive((short) 1); // Giả sử bạn dùng Short cho active
-        s.save(familyMember);
+        if (!predicates.isEmpty()) {
+            throw new RuntimeException("User or Resident not found");
+        }
+
         return familyMember;
+    }
+
+    @Override
+    public void deleteFamilyMember(int id) {
+        Session session = this.sessionFactory.getObject().getCurrentSession();
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<FamilyMember> query = builder.createQuery(FamilyMember.class);
+        Root<FamilyMember> root = query.from(FamilyMember.class);
+
+        query.select(root).where(root.get("id").in(id));
+
+        List<FamilyMember> items = session.createQuery(query).getResultList();
+
+        items.forEach(session::delete);
     }
 }

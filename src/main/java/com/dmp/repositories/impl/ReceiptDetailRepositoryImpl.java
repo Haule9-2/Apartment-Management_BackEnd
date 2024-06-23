@@ -69,4 +69,25 @@ public class ReceiptDetailRepositoryImpl implements ReceiptDetailRepository {
             return null;
         }
     }
+
+    @Override
+    public void saveDetailReceipt(ReceiptDetail receiptDetail) {
+        Session session = this.factory.getObject().getCurrentSession();
+        session.save(receiptDetail);
+    }
+
+    @Override
+    public void deleteDetailReceiptById(int id) {
+        Session session = this.factory.getObject().getCurrentSession();
+        ReceiptDetail receiptDetail = session.get(ReceiptDetail.class, id);
+        if (receiptDetail != null) {
+            session.delete(receiptDetail);
+        }
+    }
+
+    @Override
+    public void updateDetailReceipt(ReceiptDetail receiptDetail) {
+        Session session = this.factory.getObject().getCurrentSession();
+        session.update(receiptDetail);
+    }
 }

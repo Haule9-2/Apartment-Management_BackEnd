@@ -93,14 +93,27 @@ public class CabinetRepositoryImpl implements CabinetRepository {
     }
 
     @Override
-    public Boolean checkStatusCabinet(int id) {
+    public Boolean checkStatusCabinet(int cabinetId) {
+        Session s = this.factoryBean.getObject().getCurrentSession();
+        try {
+            Query query = s.createQuery("SELECT c.status FROM Cabinet c WHERE c.id = :cabinetId");
+            query.setParameter("cabinetId", cabinetId);
+            String status = (String) query.getSingleResult();
+            return "active".equalsIgnoreCase(status);
+        } catch (NoResultException e) {
+            return false;
+        }
+    }
+    @Override
+    public Boolean checkActiveCabinet(int id) {
         Session s = this.factoryBean.getObject().getCurrentSession();
 
-        Query q = s.createQuery("SELECT A.status FROM Cabinet A WHERE A.id=:cabinetId");
+        Query q = s.createQuery("SELECT A.isActive FROM Cabinet A WHERE A.id=:cabinetId");
         q.setParameter("cabinetId", id);
 
         return (Boolean) q.getSingleResult();
     }
+
 
     @Override
     public void closeCabinets() {

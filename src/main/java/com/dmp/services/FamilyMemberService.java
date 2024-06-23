@@ -7,5 +7,8 @@ import java.util.Map;
 
 public interface FamilyMemberService {
     List<FamilyMember> getFamilyMembers(Map<String, String> params, String username);
-    FamilyMember  addFamilyMember(FamilyMember familyMember);
+
+    FamilyMember addFamilyMember(FamilyMember familyMember);
+
+    void deleteFamilyMember(int id);
 }

@@ -6,6 +6,7 @@ public interface UserService {
     User getUserByUsername(String username);
     User getUserById(int id);
     User addUser(User user);
+//    User addAdmin(User user);
     User authUser(String username, String password);
     User authenticateUser(String username, String password);
     boolean isUsernameExists(String username);

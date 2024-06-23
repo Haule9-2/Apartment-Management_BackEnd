@@ -4,6 +4,7 @@ import com.dmp.pojo.User;
 import com.dmp.repositories.UserRepository;
 import com.dmp.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -12,7 +13,7 @@ public class UserServiceImpl implements UserService {
     private UserRepository repo;
 
 //    @Autowired
-//    private BCryptPasswordEncoder bCryptPasswordEncoder;
+//    private BCryptPasswordEncoder  passwordEncoder;
 
     @Override
     public User getUserByUsername(String username) {
@@ -28,6 +29,14 @@ public class UserServiceImpl implements UserService {
     public User addUser(User user) {
         return this.repo.addUser(user);
     }
+
+//    @Override
+//    public User addAdmin(User user) {
+//        user.setRole("Admin");
+//        user.setPassword(passwordEncoder.encode(user.getPassword()));
+//        user.getIsActive();
+//        return repo.addUser(user);
+//    }
 
     @Override
     public User authUser(String username, String password) {

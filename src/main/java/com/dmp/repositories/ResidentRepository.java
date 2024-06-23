@@ -11,6 +11,9 @@ public interface ResidentRepository {
     void deleteResident(int id);
 //    Resident getCurrentResident();
     Boolean checkResident(Resident resident);
+    void changeAvatar(Resident resident);
+
+
 
 
 }

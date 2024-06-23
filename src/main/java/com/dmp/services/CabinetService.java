@@ -10,7 +10,8 @@ public interface CabinetService {
     void createCabinet(Cabinet cabinet);
     List<Object[]> getAllCabinet(Map<String, String> params);
     List<Item> getItemsByCabinetId(int cabinetId, Map<String, String> params);
-    Boolean checkStatusCabinet(int id);
+    Boolean checkStatusCabinet(int cabinetId);
+    Boolean checkActiveCabinet(int cabinetId);
     void closeCabinets();
     Boolean ischeckCabinetbyContract(int contractId);
 

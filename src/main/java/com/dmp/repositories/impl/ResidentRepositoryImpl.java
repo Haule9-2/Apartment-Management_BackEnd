@@ -7,6 +7,7 @@ import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.stereotype.Repository;
+
 import javax.persistence.Query;
 
 
@@ -23,13 +24,13 @@ public class ResidentRepositoryImpl implements ResidentRepository {
 
     @Override
     public List<Resident> getResident() {
-            Session s = this.factoryBean.getObject().getCurrentSession();
-            Query query = s.createQuery(
-                    "SELECT r FROM Resident r WHERE r.user.role = :role AND r.user.isActive = true",
-                    Resident.class
-            );
-            query.setParameter("role", "Resident");
-            return query.getResultList();
+        Session s = this.factoryBean.getObject().getCurrentSession();
+        Query query = s.createQuery(
+                "SELECT r FROM Resident r WHERE r.user.role = :role AND r.user.isActive = true",
+                Resident.class
+        );
+        query.setParameter("role", "Resident");
+        return query.getResultList();
     }
 
     @Override
@@ -93,5 +94,10 @@ public class ResidentRepositoryImpl implements ResidentRepository {
         return (Boolean) query.getSingleResult();
     }
 
+    @Override
+    public void changeAvatar(Resident resident) {
+        Session s = this.factoryBean.getObject().getCurrentSession();
+        s.update(resident);
+    }
 }
 
